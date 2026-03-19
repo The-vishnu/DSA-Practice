@@ -1,0 +1,30 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int evalRPN(vector<string>& tokens){
+    stack<int> st;
+    for(int i = 0; i < tokens.size(); i++){
+        if(tokens[i] == "+" || tokens[i] == "-" || tokens[i] == "*" || tokens[i] == "/"){
+            int a = st.top(); st.pop();
+            int b = st.top(); st.pop();
+
+            if(tokens[i] == "+") st.push(b+a);
+            else if(tokens[i] == "-") st.push(b-a);
+            else if(tokens[i] == "*") st.push(b*a);
+            else st.push(b/a);
+        }
+        else{
+            st.push(stoi(tokens[i]));
+        }
+    }
+
+    return st.top();
+}
+
+int main() {
+    vector<string> tokens = {"10","6","9","3","+","-11","*","/","*","17","+","5","+"};
+
+    cout <<"Output: " << evalRPN(tokens);
+    return 0;
+}
