@@ -2,27 +2,49 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int LongestSubstring(string s){
-    string temp = s;
-    reverse(temp.begin(), temp.end());
-    int n = s.size();
-    if(s == temp) return n;
 
-    int i = 0, j = 1;
-    int ans = 0;
-    while(j < n){
-        temp = s.substr(i , (j - 1 +1));
-        reverse(temp.begin(), temp.end());
-        if(s.substr(i, (j - 1 +1)) == temp) ans = max(ans, (j - i+1));
-        j++;
+int longestPalindrome(string s){
+    vector<int> lower(26, 0);
+    vector<int> upper(26, 0);
+
+    for(int i = 0; i < s.length(); i++){
+        if(s[i] >= 'a'){
+            lower[s[i] - 'a']++;
+        }
+        else upper[s[i] - 'A']++;
     }
 
-    return ans;
+    int count = 0;
+    int odd = 0;
+
+    for(int i = 0; i < 26; i++){
+        
+        //lower
+        if(lower[i] %2 == 0) count += lower[i];
+        else {
+            count += lower[i]-1;
+            odd = 1;
+        }
+
+        //upper
+        if(upper[i] %2 == 0) count += upper[i];
+        else {
+            count += upper[i]+1;
+            odd = 1;
+        }
+    }
+
+    return count + odd;
+
+}
+
+string LongestPalindrome(string s) {
+    
 }
 
 int main() {
     string s = "ababd";
 
-    cout <<"output: " << LongestSubstring(s);
+    cout <<"output: " << longestPalindrome(s);
     return 0;
 }
