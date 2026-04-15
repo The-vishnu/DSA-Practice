@@ -1,2 +1,1 @@
-Enter the number of nodes: ";
-    // cin >> n;
+a-- || b--
