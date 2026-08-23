@@ -41,19 +41,7 @@ void displayList(Node* &head){
 int main() {
     Node* head = new Node(1);
     Node* tail = head;
-
-    // cout <<"Enter the number of nodes: ";
-    // cin >> n;
-    insertAtTail(tail, 11);
-    insertAtHead(head, 12);
-    insertAtHead(head, 9);
-    insertAtTail(tail, 10);
-    insertAtHead(head, 3);
-    // insertAtHead(node1, 3);
-    // insertAtHead(node1, 4);
-    // insertAtHead(node1, 1);
-
-    // insertAtTail(node1, 11);
+    
 
     displayList(head);
 

@@ -138,39 +138,4 @@ void printLinkedList(Node* &head){
     }
 
     cout <<" Null";
-
-}
-
-int main() {
-    vector<int> nodeEle = {1,2,3,4,5,6,7,8,9,0};
-
-    Node* head;
-    Node* tail;
-    tail = head = new Node(nodeEle[0]);
-
-    for(int i = 1; i < nodeEle.size(); i++){
-
-        if(i %2 == 0){
-            insertAtHead(head, nodeEle[i]);
-        }
-        else {
-            insertAtTail(tail, nodeEle[i]);
-        }
-    }
-    cout << endl;
-    printLinkedList(head);
-
-    insertAtPosition(head, tail, 3, 11);
-    cout << endl;
-    cout <<"After Inserting at 3 " << endl;
-    printLinkedList(head);
-    cout << endl;
-    
-    deleteFromHead(head, tail);
-    deleteFromTail(head, tail);
-    cout <<"After Deleting..." << endl;
-    printLinkedList(head);
-
-
-    return 0;
 }
