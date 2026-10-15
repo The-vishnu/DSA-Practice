@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="studentApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngularJS Student Registration</title>
+
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input.ng-invalid.ng-touched,
+        select.ng-invalid.ng-touched {
+            border: 2px solid red;
+        }
+
+        input.ng-valid.ng-touched,
+        select.ng-valid.ng-touched {
+            border: 2px solid green;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+
+        .preview {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e3f2fd;
+            border-radius: 5px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+
+<body ng-controller="StudentController">
+
+<div class="container">
+
+    <h1>STUDENT REGISTRATION    </h1>   
+
+    <!-- AngularJS Expression -->
+    <p>
+        Welcome, <strong>{{ student.name || 'Student' }}</strong>!
+    </p>
+
+    <form name="studentForm" ng-submit="submitForm()" novalidate>
+
+        <!-- Name -->
+        <label>Full Name</label>
+        <input type="text"
+               name="studentName"
+               ng-model="student.name"
+               placeholder="Enter your name"
+               required
+               ng-minlength="3">
+
+        <div class="error"
+             ng-show="studentForm.studentName.$touched &&
+                      studentForm.studentName.$invalid">
+
+            <span ng-show="studentForm.studentName.$error.required">
+                Name is required.
+            </span>
+
+            <span ng-show="studentForm.studentName.$error.minlength">
+                Name must contain at least 3 characters.
+            </span>
+        </div>
+
+
+        <!-- Email -->
+        <label>Email</label>
+        <input type="email"
+               name="studentEmail"
+               ng-model="student.email"
+               placeholder="Enter your email"
+               required>
+
+        <div class="error"
+             ng-show="studentForm.studentEmail.$touched &&
+                      studentForm.studentEmail.$invalid">
+
+            Please enter a valid email address.
+        </div>
+
+
+        <!-- Age -->
+        <label>Age</label>
+        <input type="number"
+               name="studentAge"
+               ng-model="student.age"
+               placeholder="Enter your age"
+               min="18"
+               max="60"
+               required>
+
+        <div class="error"
+             ng-show="studentForm.studentAge.$touched &&
+                      studentForm.studentAge.$invalid">
+
+            Age must be between 18 and 60.
+        </div>
+
+
+        <!-- Course -->
+        <label>Course</label>
+        <select name="course"
+                ng-model="student.course"
+                required
+                ng-options="course for course in courses">
+
+            <option value="">-- Select Course --</option>
+        </select>
+
+        <div class="error"
+             ng-show="studentForm.course.$touched &&
+                      studentForm.course.$invalid">
+
+            Please select a course.
+        </div>
+
+
+        <!-- Two-way Data Binding -->
+        <label>
+    <input type="checkbox" ng-model="student.agree"> I agree to the terms and conditions
+        
+        </label>
+
+
+        <!-- Submit -->
+        <button type="submit"
+                ng-disabled="studentForm.$invalid || !student.agree">
+
+            Register
+        </button>
+
+    </form>
+
+
+    <!-- Data Binding Preview -->
+    <div class="preview">
+
+        <h2>Live Student Details</h2>
+
+        <p><strong>Name:</strong> {{ student.name }}</p>
+        <p><strong>Email:</strong> {{ student.email }}</p>
+        <p><strong>Age:</strong> {{ student.age }}</p>
+        <p><strong>Course:</strong> {{ student.course }}</p>
+
+        <!-- AngularJS Expression -->
+        <p>
+            <strong>Age Next Year:</strong>
+            {{ (student.age || 0) + 1 }}
+        </p>
+
+        <p>
+            <strong>Registration Status:</strong>
+
+            <span ng-if="student.agree">
+                Ready to Register
+            </span>
+
+            <span ng-if="!student.agree">
+                Please accept the terms
+            </span>
+        </p>
+
+    </div>
+
+
+    <!-- ng-repeat Directive -->
+    <div class="preview">
+
+        <h2>Available Courses</h2>
+
+        <ul>
+            <li ng-repeat="course in courses">
+                {{ $index + 1 }}. {{ course }}
+            </li>
+        </ul>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // AngularJS Module
+    var app = angular.module("studentApp", []);
+
+    // AngularJS Controller
+    app.controller("StudentController", function($scope) {
+
+        // Page title
+        $scope.title = "Student Registration";
+
+        // Student object
+        $scope.student = {
+            name: "",
+            email: "",
+            age: null,
+            course: "",
+            agree: false
+        };
+
+        // Array used by ng-repeat and ng-options
+        $scope.courses = [
+            "Computer Science",
+            "Information Technology",
+            "Electronics",
+            "Mechanical Engineering",
+            "Civil Engineering"
+        ];
+
+        // Form submission
+        $scope.submitForm = function() {
+
+            if ($scope.studentForm.$valid &&
+                $scope.student.agree) {
+
+                alert(
+                    "Registration Successful!\n\n" +
+                    "Name: " + $scope.student.name +
+                    "\nEmail: " + $scope.student.email +
+                    "\nCourse: " + $scope.student.course
+                );
+            }
+        };
+
+    });
+
+</script>
+
+</body>
+</html>
+
